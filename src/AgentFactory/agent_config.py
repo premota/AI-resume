@@ -34,11 +34,10 @@ class AgentConfig(Generic[AgentDepsT, AgentOutputT]):
     tool: list[Tool]
     persona: str
     prompt: str
-    dep_types : Type[AgentDeps]
+    dep_types : Type[AgentDepsT]
     output: Type[AgentOutputT]
 
 
-@dataclass
 class ResumeStructureConfig(BaseXmlModel):
     header: str
     education: str
@@ -54,7 +53,6 @@ class ResumeStructureConfig(BaseXmlModel):
     interests: str
 
 
-@dataclass
 class JobDescriptionStructureConfig(BaseXmlModel):
     header: str
     job_description: str

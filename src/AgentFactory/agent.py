@@ -1,6 +1,7 @@
 from pydantic_ai import Agent as PydanticAIAgent
+
 from src.AgentFactory.agent_config import AgentConfig
-from src.AgentFactory.tool_registery import ToolRegistry
+from src.AgentFactory.tool_registry import ToolRegistry
 from src.AgentFactory.agent_config import AgentOutputT, AgentDepsT
 
 
@@ -10,12 +11,12 @@ class Agent:
         self.config = config
 
     @property
-    def initialized(self)->bool:
+    def initialized(self) -> bool:
         return self._agent is not None
 
-    def _instantiate_agent(self)->PydanticAIAgent:
+    def _instantiate_agent(self) -> PydanticAIAgent:
         if self.initialized:
-            # agent has already be initialized before
+            # agent has been initialized before
             assert isinstance(self._agent, PydanticAIAgent)
             return self._agent
         if not self.config:
@@ -25,13 +26,13 @@ class Agent:
             model=self.config.model,
             system_prompt=self._system_prompt(),
             deps_type=self.config.dep_types,
-            output_type= self.config.output
+            output_type=self.config.output,
         )
         # register tools to agent
         self._register_tools()
-        return self._agent 
+        return self._agent
 
-    def _register_tools(self)->None:
+    def _register_tools(self) -> None:
         if not self.initialized:
             raise RuntimeError(
                 "Agent must be initialized first before registering tool"
@@ -40,7 +41,7 @@ class Agent:
         assert self._agent is not None
         ToolRegistry(agent=self._agent, tool_list=self.config.tool).register_tools()
 
-    def _system_prompt(self)->str:
+    def _system_prompt(self) -> str:
         return f"""
             persona: {self.config.persona}
 
@@ -48,11 +49,10 @@ class Agent:
             {self.config.prompt}
         """
 
-    def run(self):
+    def get_agent(self) -> PydanticAIAgent:
         if not self.initialized:
-        # instantiate the agent
+            # instantiate the agent
             self._instantiate_agent()
 
+        assert isinstance(self._agent, PydanticAIAgent)
         return self._agent
-
-  

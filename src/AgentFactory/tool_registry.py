@@ -12,6 +12,6 @@ class ToolRegistry:
 
     def register_tools(self)->None:
         if self.tools:
-            for tool in self.tools:
-                self.agent.tool(tool)
+            for each_tool in self.tools:
+                self.agent.tool(each_tool)
        
