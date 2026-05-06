@@ -7,17 +7,17 @@ from src.AgentFactory.agent_config import AgentOutputT, AgentDepsT
 
 class Agent:
     def __init__(self, config: AgentConfig):
-        self._agent: PydanticAIAgent | None = None
+        self._agent: PydanticAIAgent[AgentDepsT, AgentOutputT] | None = None
         self.config = config
 
     @property
     def initialized(self) -> bool:
         return self._agent is not None
 
-    def _instantiate_agent(self) -> PydanticAIAgent:
+    def _instantiate_agent(self) -> PydanticAIAgent[AgentDepsT, AgentOutputT]:
         if self.initialized:
             # agent has been initialized before
-            assert isinstance(self._agent, PydanticAIAgent)
+            assert self._agent is not None
             return self._agent
         if not self.config:
             raise ValueError("Agent config must be set before instantiating")
@@ -54,5 +54,5 @@ class Agent:
             # instantiate the agent
             self._instantiate_agent()
 
-        assert isinstance(self._agent, PydanticAIAgent)
+        assert self._agent is not None
         return self._agent
