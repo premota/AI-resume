@@ -1,8 +1,8 @@
 import pytest
 from unittest.mock import patch, MagicMock
 
-from src.AgentFactory.agent import Agent
-from src.AgentFactory.agent_config import AgentConfig, AgentDeps
+from AgentFramework.AgentFactory.agent import Agent
+from AgentFramework.AgentFactory.agent_config import AgentConfig, AgentDeps
 
 
 class TestAgentFactory:
@@ -24,7 +24,7 @@ class TestAgentFactory:
     def get_agent_class(self, get_agent_config):
         return Agent(config=get_agent_config)
 
-    @patch("src.AgentFactory.agent.PydanticAIAgent")
+    @patch("AgentFramework.AgentFactory.agent.PydanticAIAgent")
     def test_get_agent_initializes_agent_on_first_call(
         self, mock_pydantic_cls, get_agent_class
     ):
@@ -38,7 +38,7 @@ class TestAgentFactory:
         assert returned_agent is inner
         mock_pydantic_cls.assert_called_once()
 
-    @patch("src.AgentFactory.agent.PydanticAIAgent")
+    @patch("AgentFramework.AgentFactory.agent.PydanticAIAgent")
     def test_pydantic_ai_agent_receives_expected_constructor_kwargs(
         self, mock_pydantic_cls, get_agent_class
     ):
@@ -55,7 +55,7 @@ class TestAgentFactory:
         assert agent.config.persona in kwargs["system_prompt"]
         assert agent.config.prompt in kwargs["system_prompt"]
 
-    @patch("src.AgentFactory.agent.PydanticAIAgent")
+    @patch("AgentFramework.AgentFactory.agent.PydanticAIAgent")
     def test_get_agent_reuses_existing_initialized_agent(
         self, mock_pydantic_cls, get_agent_class
     ):
@@ -87,8 +87,8 @@ class TestAgentFactory:
         with pytest.raises(RuntimeError, match="Agent must be initialized first"):
             agent._register_tools()
 
-    @patch("src.AgentFactory.agent.PydanticAIAgent")
-    @patch("src.AgentFactory.agent.ToolRegistry")
+    @patch("AgentFramework.AgentFactory.agent.PydanticAIAgent")
+    @patch("AgentFramework.AgentFactory.agent.ToolRegistry")
     def test_tool_registry_calls_register_tools(
         self, mock_tool_registry_cls, mock_pydantic_agent_cls, get_agent_class
     ):

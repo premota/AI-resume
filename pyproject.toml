@@ -7,7 +7,6 @@ requires-python = ">=3.13"
 dependencies = [
     "pydantic-ai>=1.47.0",
     "pydantic-xml>=2.18.0",
-    "pytest>=9.0.2",
 ]
 
 [dependency-groups]

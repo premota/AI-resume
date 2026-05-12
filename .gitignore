@@ -11,3 +11,6 @@ wheels/
  
 # test data
 dataset/
+
+# documentation
+doc 

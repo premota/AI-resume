@@ -16,7 +16,9 @@ class AgentDeps:
     will be used at runtime to create dependencies that would be injected 
     at execution
     """
-    caller_id: int
+    caller_id: int | None = None
+    db_connection: str | None = None
+    api_key: str | None = None
     
 
 
@@ -38,29 +40,19 @@ class AgentConfig(Generic[AgentDepsT, AgentOutputT]):
     output: Type[AgentOutputT]
 
 
-class ResumeStructureConfig(BaseXmlModel):
-    header: str
-    education: str
-    experience: str
-    skills: str
-    projects: str
-    certifications: str
-    publications: str
-    patents: str
-    awards: str
-    memberships: str
-    languages: str
-    interests: str
+# class ResumeStructureConfig(BaseXmlModel):
+#     header: str
+#     education: str
+#     experience: str
+#     skills: str
+#     projects: str
+#     certifications: str
+#     publications: str
+#     patents: str
+#     awards: str
+#     memberships: str
+#     languages: str
+#     interests: str
 
 
-class JobDescriptionStructureConfig(BaseXmlModel):
-    header: str
-    job_description: str
-    job_requirements: str
-    job_responsibilities: str
-    job_qualifications: str
-    job_benefits: str
-    job_application: str
-    job_contact: str
-    job_location: str
-    job_salary: str
+
