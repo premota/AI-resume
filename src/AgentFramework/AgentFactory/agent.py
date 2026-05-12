@@ -21,12 +21,16 @@ class Agent:
             return self._agent  # type: ignore
         if not self.config:
             raise ValueError("Agent config must be set before instantiating")
+        # get conditional dependency kwargs
+        kwargs = {}
+        if self.config.dep_types:
+            kwargs["deps_type"] = self.config.dep_types
         # create pydantic_ai Agent
         self._agent = PydanticAIAgent(
             model=self.config.model,
             system_prompt=self._system_prompt(),
-            deps_type=self.config.dep_types,
             output_type=self.config.output,
+            **kwargs, #conditional kwargs unpacking
         )
         # register tools to agent
         self._register_tools()

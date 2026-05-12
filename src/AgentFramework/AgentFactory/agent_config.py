@@ -1,7 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TypeVar, Callable, Any, Type, Generic
 
-from pydantic_xml import BaseXmlModel
 
 
 # class ManagePrompt:
@@ -33,26 +32,9 @@ class AgentConfig(Generic[AgentDepsT, AgentOutputT]):
     Used during Agent definition to create contract for agent
     """
     model: str
-    tool: list[Tool]
     persona: str
     prompt: str
-    dep_types : Type[AgentDepsT]
     output: Type[AgentOutputT]
-
-
-# class ResumeStructureConfig(BaseXmlModel):
-#     header: str
-#     education: str
-#     experience: str
-#     skills: str
-#     projects: str
-#     certifications: str
-#     publications: str
-#     patents: str
-#     awards: str
-#     memberships: str
-#     languages: str
-#     interests: str
-
-
+    dep_types : Type[AgentDepsT] | None = None
+    tool: list[Tool] = field(default_factory=list)
 
