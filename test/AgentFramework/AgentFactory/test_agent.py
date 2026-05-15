@@ -14,7 +14,6 @@ class TestAgentFactory:
         return AgentConfig(
             model="gpt-4o",
             tool=[dummy_tool],
-            persona="Travis agent",
             prompt="prompt",
             dep_types=AgentDeps,
             output=str,
@@ -52,7 +51,6 @@ class TestAgentFactory:
         assert kwargs["model"] == agent.config.model
         assert kwargs["deps_type"] == AgentDeps
         assert kwargs["output_type"] is str
-        assert agent.config.persona in kwargs["system_prompt"]
         assert agent.config.prompt in kwargs["system_prompt"]
 
     @patch("AgentFramework.AgentFactory.agent.PydanticAIAgent")
