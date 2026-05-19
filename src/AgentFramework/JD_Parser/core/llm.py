@@ -1,6 +1,7 @@
 from typing import Generic
 from dataclasses import dataclass
 
+from AgentFramework.JD_Parser.prompt import RUN_TIME_PROMPT
 from pydantic import Json
 from pydantic_ai import Agent as PydanticAIAgent
 
@@ -26,19 +27,18 @@ class JobAdsLLM:
     def __init__(
         self,
         job_description: str,
-        agent: PydanticAIAgent[JDDeps, JDOutputSchema],
-        run_time_prompt: str,
+        agent: PydanticAIAgent[JDDeps, JDOutputSchema]
     ):
         self.job_description = job_description
         self.agent = agent
-        self.run_time_prompt = run_time_prompt
+        self.run_time_prompt = RUN_TIME_PROMPT
 
     def _get_dependency(self) -> JDDeps:
         return JDDeps(job_description=self.job_description)
 
     def _create_run_time_prompt(self, ctx: RunContext[JDDeps]) -> str:
         return f"""{self.run_time_prompt}.
-    may
+    
         JOB DESCRIPTION:
         {ctx.deps.job_description}"""
 
