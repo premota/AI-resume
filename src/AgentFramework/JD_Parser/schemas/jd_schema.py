@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 class JDOutputSchema(BaseModel):
     job_title: str = Field(description="The title of the job position.")
     job_level: str = Field(description="The level of the job position.")
-    responsibility: str = Field(description="The responsibilities of the job position.")
+    responsibility: list[str] = Field(description="The responsibilities of the job position.")
     professional_skills: list[str] = Field(
         description="The professional skills required for the job position."
     )
@@ -15,6 +15,7 @@ class JDOutputSchema(BaseModel):
         description="The nice-to-have skills for the job position."
     )
     years_of_experience: int | None = Field(
+        default = None,
         description="The number of years of experience required for the job position."
     )
     location: list[str] = Field(description="The locations where the job is available.")
