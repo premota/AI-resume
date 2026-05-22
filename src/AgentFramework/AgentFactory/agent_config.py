@@ -9,10 +9,6 @@ class AgentDeps:
     at execution
     """
 
-    # caller_id: int | None = None
-    # db_connection: str | None = None
-    # api_key: str | None = None
-
 
 AgentDepsT = TypeVar("AgentDepsT", bound=AgentDeps)
 AgentOutputT = TypeVar("AgentOutputT")

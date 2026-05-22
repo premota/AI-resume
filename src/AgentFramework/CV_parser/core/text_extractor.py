@@ -9,9 +9,9 @@ class CVTextExtractor:
         self.converter = converter
 
     def _convert_to_doc_stream(self, cv: bytes) -> DocumentStream:
-        Byte_IO = BytesIO(cv)
-        return DocumentStream(name="doc", stream=Byte_IO)
+        byte_io = BytesIO(cv)
+        return DocumentStream(name="doc", stream=byte_io)
 
-    def extract_in_markdown(self, cv) -> str:
+    def extract_in_markdown(self, cv: bytes) -> str:
         source = self._convert_to_doc_stream(cv)
         return self.converter.convert(source=source).document.export_to_markdown()

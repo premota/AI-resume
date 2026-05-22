@@ -22,8 +22,8 @@ def _construct_full_prompt(cv_text: str, run_time_prompt: str) -> str:
 
 
 async def parse_cv(
-    cv_text: str,
     agent: PydanticAIAgent[CVDeps, CVOutputSchema],
+    cv_text: str,
     cv_runtime_prompt: str = CV_RUMTIME_PROMPT,
 ) -> CVOutputSchema:
     cv_deps = CVDeps(cv_text=cv_text)

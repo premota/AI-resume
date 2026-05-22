@@ -21,10 +21,9 @@ class Agent(Generic[AgentDepsT, AgentOutputT]):
     def _instantiate_agent(self) -> PydanticAIAgent[AgentDepsT, AgentOutputT]:
         if self.initialized:
             # agent has been initialized before
-            assert self._agent is not None
-            return self._agent
-        if self.config is None:
-            raise ValueError("Agent config must be set before instantiating")
+            if self._agent is not None:
+                return self._agent
+
         self._agent = PydanticAIAgent(
             model=self.config.model,
             system_prompt=self.config.prompt,
@@ -40,14 +39,15 @@ class Agent(Generic[AgentDepsT, AgentOutputT]):
             raise RuntimeError(
                 "Agent must be initialized first before registering tool"
             )
-
-        assert self._agent is not None
-        ToolRegistry(agent=self._agent, tool_list=self.config.tool).register_tools()  # type: ignore
+        if self._agent is not None:
+            ToolRegistry(agent=self._agent, tool_list=self.config.tool).register_tools()  # type: ignore
 
     def get_agent(self) -> PydanticAIAgent[AgentDepsT, AgentOutputT]:
         if not self.initialized:
             # instantiate the agent
-            self._instantiate_agent()
+            return self._instantiate_agent()
 
-        assert self._agent is not None
-        return self._agent
+        if self._agent is not None:
+            return self._agent
+
+        raise RuntimeError("Agent initialization invariant broken")
