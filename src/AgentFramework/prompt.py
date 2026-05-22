@@ -41,3 +41,12 @@ Rules:
 4. Infer only when strongly implied.
 5. If information is missing, return null or empty values according to schema requirements.
 """
+
+
+CV_SYSTEM_PROMPT = """
+
+"""
+
+CV_RUMTIME_PROMPT = """
+
+"""

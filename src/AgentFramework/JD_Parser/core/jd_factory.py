@@ -1,7 +1,7 @@
 from AgentFramework.AgentFactory.agent import Agent
 from AgentFramework.AgentFactory.agent_config import AgentConfig
 from AgentFramework.JD_Parser.core.jd_llm import JDDeps
-from AgentFramework.JD_Parser.prompt import JD_SYSTEM_PROMPT
+from AgentFramework.prompt import JD_SYSTEM_PROMPT
 from AgentFramework.JD_Parser.schemas.jd_schema import JDOutputSchema
 from pydantic_ai import Agent as PydanticAIAgent
 from utils.config import Settings
