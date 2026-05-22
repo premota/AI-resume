@@ -12,6 +12,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "docling>=2.94.0",
     "ipykernel>=7.2.0",
     "pytest>=9.0.2",
     "python-dotenv>=1.2.1",
