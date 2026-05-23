@@ -7,6 +7,7 @@ from AgentFramework.AgentFactory.agent_config import (
     AgentDepsT,
 )
 from AgentFramework.AgentFactory.tool_registry import ToolRegistry
+from utils.exception import AgentInitializationError, ToolRegistryError
 
 
 class Agent(Generic[AgentDepsT, AgentOutputT]):
@@ -19,35 +20,31 @@ class Agent(Generic[AgentDepsT, AgentOutputT]):
         return self._agent is not None
 
     def _instantiate_agent(self) -> PydanticAIAgent[AgentDepsT, AgentOutputT]:
-        if self.initialized:
-            # agent has been initialized before
-            if self._agent is not None:
-                return self._agent
-
-        self._agent = PydanticAIAgent(
-            model=self.config.model,
-            system_prompt=self.config.prompt,
-            output_type=self.config.output,
-            deps_type=self.config.dep_types,
-        )
-        # register tools to agent
-        self._register_tools()
-        return self._agent
-
-    def _register_tools(self) -> None:
-        if not self.initialized:
-            raise RuntimeError(
-                "Agent must be initialized first before registering tool"
-            )
-        if self._agent is not None:
-            ToolRegistry(agent=self._agent, tool_list=self.config.tool).register_tools()  # type: ignore
-
-    def get_agent(self) -> PydanticAIAgent[AgentDepsT, AgentOutputT]:
-        if not self.initialized:
-            # instantiate the agent
-            return self._instantiate_agent()
-
         if self._agent is not None:
             return self._agent
+        try:
+            temp_agent = PydanticAIAgent(
+                model=self.config.model,
+                system_prompt=self.config.prompt,
+                output_type=self.config.output,
+                deps_type=self.config.dep_types,
+            )
+        except Exception as e:
+            raise AgentInitializationError("Agent failed to initialize") from e
 
-        raise RuntimeError("Agent initialization invariant broken")
+        # register tools to agent
+        self._register_tools(temp_agent)
+
+        self._agent = temp_agent
+        return self._agent
+
+    def _register_tools(self, agent: PydanticAIAgent) -> None:
+        try:
+            ToolRegistry(agent=agent, tool_list=self.config.tool).register_tools()
+        except Exception as e:
+            raise ToolRegistryError("Tools failed to register") from e
+
+    def get_agent(self) -> PydanticAIAgent[AgentDepsT, AgentOutputT]:
+        if self._agent is None:
+            return self._instantiate_agent()
+        return self._agent
