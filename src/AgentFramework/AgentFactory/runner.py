@@ -1,5 +1,7 @@
 from pydantic_ai import Agent as PydanticAIAgent
+
 from AgentFramework.AgentFactory.agent_config import AgentDepsT, AgentOutputT
+from utils.exception import AgentExecutionError
 
 
 async def run_agent(
@@ -8,8 +10,11 @@ async def run_agent(
     dependency: AgentDepsT,
     user_instruction: str,
 ) -> AgentOutputT:
-    result = await agent.run(
-        user_prompt=user_prompt, deps=dependency, instructions=user_instruction
-    )
-    agent_result = result.output
-    return agent_result
+    try:
+        result = await agent.run(
+            user_prompt=user_prompt, deps=dependency, instructions=user_instruction
+        )
+
+    except Exception as e:
+        raise AgentExecutionError("Agent execution failed") from e
+    return result.output

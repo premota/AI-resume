@@ -2,6 +2,7 @@ from io import BytesIO
 
 from docling.document_converter import DocumentConverter
 from docling.datamodel.base_models import DocumentStream
+from utils.exception import TextExtractionError
 
 
 class CVTextExtractor:
@@ -14,4 +15,7 @@ class CVTextExtractor:
 
     def extract_in_markdown(self, cv: bytes) -> str:
         source = self._convert_to_doc_stream(cv)
-        return self.converter.convert(source=source).document.export_to_markdown()
+        try:
+            return self.converter.convert(source=source).document.export_to_markdown()
+        except Exception as e:
+            raise TextExtractionError("Text extraction from CV document failed") from e
