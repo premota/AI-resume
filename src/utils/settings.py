@@ -9,3 +9,7 @@ class Settings(BaseSettings):
     )
 
     model_name: str = "openai:gpt-4o"
+
+
+# create a global settings
+settings = Settings()
