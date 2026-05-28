@@ -8,7 +8,9 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    model_name: str = "openai:gpt-4o"
+    model_name: str = "openai:gpt-4o" # for cv and jd parsing
+    matcher_model_name: str = "anthropic:claude-haiku-4-5-20251001" # for cv and jd comparison
+    matcher_temperature: float = 0.1
 
 
 # create a global settings
