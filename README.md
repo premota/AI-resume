@@ -1,9 +1,57 @@
 # Job AI
 
-Job AI is meant to support **AI-assisted job search**: turning unstructured resumes and job descriptions into structured information, then using that structure to reason about fit and how a resume could be improved for a specific role.
+An AI-powered pipeline that reads a CV and a job description, extracts structured data from both, and tells you how well the candidate fits the role — with traceable reasoning, not just a number.
 
-The project is aimed at workflows where you have **resume text** and **job posting text** and want to **extract** the important parts of each, **compare** them in a repeatable way, and get a **fit score**: how well the CV matches the role, together with **where the CV is lacking** relative to the posting and **where it is strong**—not a single number in isolation, but judgment you can trace back to the text.
+---
 
-From there, the vision includes **concrete, targeted suggestions** for how to align a resume with a job—without relying on one opaque rewrite of the whole document.
+## What it does
 
-In short, it is for building **clear, inspectable steps** from raw text to “what this JD asks for,” “what the resume shows,” “how strong the fit is and why,” and “what might change to strengthen the match.”
+```
+CV (PDF / text)  ──► CV Agent  ──► structured candidate profile  ──┐
+                                                                     ├──► Matcher Agent ──► fit score + gaps + strengths
+JD (text)        ──► JD Agent  ──► structured job requirements   ──┘
+```
+
+1. **CV Agent** — reads raw CV text and extracts skills, experience, education, certifications, and a professional summary into a typed schema.
+2. **JD Agent** — reads a raw job posting and extracts required skills, experience threshold, seniority level, education requirement, and certifications into a typed schema.
+3. **Matcher Agent** — compares the two schemas and produces a match score (0–100), a fit verdict, per-dimension reasoning, the candidate's top strengths, and their top gaps.
+
+---
+
+## Project layout
+
+```
+src/
+└── AgentFramework/
+    ├── AgentFactory/    # Base building block — creates and runs pydantic-ai agents
+    ├── CV_parser/       # Extracts structured data from a CV
+    ├── JD_Parser/       # Extracts structured data from a job description
+    └── Matcher/         # Compares CV output vs JD output and scores the match
+```
+
+---
+
+## Setup
+
+**1. Install dependencies**
+```bash
+uv sync
+```
+
+**2. Add API keys to `.env` in the project root**
+```
+MODEL_NAME=groq:openai/gpt-oss-120b   # model used by CV + JD agents
+GROQ_API_KEY=...                       # key for the model above
+ANTHROPIC_API_KEY=...                  # used by the Matcher agent (Claude Haiku)
+```
+
+---
+
+## Components
+
+| Component | README |
+|---|---|
+| AgentFactory | [AgentFactory/README.md](src/AgentFramework/AgentFactory/README.md) |
+| CV Parser | [CV_parser/README.md](src/AgentFramework/CV_parser/README.md) |
+| JD Parser | [JD_Parser/README.md](src/AgentFramework/JD_Parser/README.md) |
+| Matcher | [Matcher/README.md](src/AgentFramework/Matcher/README.md) |
