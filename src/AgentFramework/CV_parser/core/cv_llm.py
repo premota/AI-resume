@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from AgentFramework.AgentFactory.agent_config import AgentDeps
 from AgentFramework.AgentFactory.runner import run_agent
 from AgentFramework.CV_parser.schemas.cv_schema import CVOutputSchema
-from AgentFramework.prompt import CV_RUMTIME_PROMPT
+from AgentFramework.prompt import CV_RUNTIME_PROMPT
 from pydantic_ai import Agent as PydanticAIAgent
 
 
@@ -24,7 +24,7 @@ def _construct_full_prompt(cv_text: str, run_time_prompt: str) -> str:
 async def parse_cv(
     agent: PydanticAIAgent[CVDeps, CVOutputSchema],
     cv_text: str,
-    cv_runtime_prompt: str = CV_RUMTIME_PROMPT,
+    cv_runtime_prompt: str = CV_RUNTIME_PROMPT,
 ) -> CVOutputSchema:
     cv_deps = CVDeps(cv_text=cv_text)
 

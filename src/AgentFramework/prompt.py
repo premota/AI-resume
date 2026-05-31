@@ -172,7 +172,7 @@ OUTPUT GUIDANCE:
 """
 
 
-CV_RUMTIME_PROMPT = """
+CV_RUNTIME_PROMPT = """
 Analyze the provided CV and extract a structured candidate profile using the supplied schema definition.
 
 Rules:
