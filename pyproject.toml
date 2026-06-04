@@ -5,9 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "aiosqlite>=0.22.1",
+    "alembic>=1.18.4",
     "pydantic>=2.12.5",
     "pydantic-ai>=1.47.0",
     "pydantic-xml>=2.18.0",
+    "sqlalchemy>=2.0.50",
 ]
 
 [dependency-groups]

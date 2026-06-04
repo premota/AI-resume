@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     model_name: str = "openai:gpt-4o" # for cv and jd parsing
     matcher_model_name: str = "anthropic:claude-haiku-4-5-20251001" # for cv and jd comparison
     matcher_temperature: float = 0
+    database_url: str = "sqlite+aiosqlite:///./data/app.db"
 
 
 # create a global settings
