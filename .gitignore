@@ -8,6 +8,13 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Database
+data/
+*.db
+*.db-shm
+*.db-wal
+
  
 # test data
 dataset/
