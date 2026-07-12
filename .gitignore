@@ -15,12 +15,14 @@ data/
 *.db-shm
 *.db-wal
 
+#claude
+claude.md
  
 # test data
 dataset/
 
 # documentation
-doc 
+docs 
 
 # env 
 .env

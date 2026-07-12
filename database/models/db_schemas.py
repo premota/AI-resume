@@ -31,11 +31,15 @@ class CVTable(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("User_table.id"))
     cv_hash: Mapped[str] = mapped_column(
-        String(64), unique=True, nullable=False, index=True
+        String(64), nullable=False, index=True
     )
     cv_content: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
+    )
+
+    __table_args__ = (
+        UniqueConstraint("user_id", "cv_hash", name="uq_user_cv_hash"),
     )
 
     user: Mapped["UserTable"] = relationship("UserTable", back_populates="cvs")
@@ -50,11 +54,15 @@ class JDTable(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("User_table.id"))
     jd_hash: Mapped[str] = mapped_column(
-        String(64), unique=True, nullable=False, index=True
+        String(64), nullable=False, index=True
     )
     jd_content: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
+    )
+
+    __table_args__ = (
+        UniqueConstraint("user_id", "jd_hash", name="uq_user_jd_hash"),
     )
 
     user: Mapped["UserTable"] = relationship("UserTable", back_populates="jds")
