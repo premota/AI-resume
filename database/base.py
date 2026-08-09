@@ -27,7 +27,7 @@ def set_pragmas(dbapi_conn, _):
 
 
 AsyncSessionLocal = async_sessionmaker(
-    engine=engine, class_=AsyncSession, expire_on_commit=False
+    bind=engine, class_=AsyncSession, expire_on_commit=False
 )
 
 

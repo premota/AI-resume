@@ -3,7 +3,7 @@ import sys
 
 import structlog
 
-from src.utils.settings import settings
+from utils.settings import settings
 
 
 def configure_structlog(level: int = logging.INFO) -> None:

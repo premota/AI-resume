@@ -12,3 +12,14 @@ class ToolRegistryError(Exception):
 
 class TextExtractionError(Exception):
     """Raised when text extraction from a document fails."""
+
+
+class AppException(Exception):
+    status_code = 400
+    message = "App Error"
+    
+
+class EmailAlreadyExistError(AppException):
+    """Raised when registeration is attempted with an email already on file"""
+    status_code = 409
+    message = "Email already exists"
